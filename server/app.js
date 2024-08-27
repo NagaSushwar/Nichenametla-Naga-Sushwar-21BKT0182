@@ -32,7 +32,7 @@ let moveHistory = {
 const initializeBoard = (composition) => {
   grid = Array.from({ length: gridHeight }, () => Array(gridWidth).fill(""));
 
-  // Place pieces for Player A
+  // Player A peices
   let row = 0;
   for (let i = 0; i < composition.Pawns; i++) {
     grid[row][i] = `A-P${i + 1}`;
@@ -41,7 +41,7 @@ const initializeBoard = (composition) => {
   grid[row][3] = `A-H2`;
   grid[row][2] = `A-H3`;
 
-  // Place pieces for Player B
+  //Player B peices
   row = gridHeight - 1;
   for (let i = 0; i < composition.Pawns; i++) {
     grid[row][i] = `B-P${i + 1}`;
@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
   
   socket.emit("boardUpdate", { grid, currentPlayer, moveHistory });
 
-  // Handle move requests
+  
   socket.on("move", ({ piece, direction }) => {
     const [row, col] = findPiecePosition(piece);
     if (row === -1 || col === -1) {
@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
         captured: isCapture ? targetCell : null,
       });
 
-      // Switch player
+      
       currentPlayer = currentPlayer === "A" ? "B" : "A";
 
       
