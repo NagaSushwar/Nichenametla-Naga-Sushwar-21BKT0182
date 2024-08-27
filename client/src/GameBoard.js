@@ -67,39 +67,39 @@ function App() {
         type="button"
         onClick={refreshPage}
         style={{
-          backgroundColor: "#007bff" /* Bright blue background */,
+          backgroundColor: "#007bff" ,
           border: "none",
-          color: "white" /* White text */,
-          padding: "15px 30px" /* Larger padding for a bigger button */,
+          color: "white" ,
+          padding: "15px 30px" ,
           textAlign: "center",
           textDecoration: "none",
           display: "inline-block",
-          fontSize: "24px" /* Large font size */,
-          fontWeight: "bold" /* Bold text */,
+          fontSize: "24px" ,
+          fontWeight: "bold" ,
           margin: "10px 5px",
           cursor: "pointer",
-          borderRadius: "12px" /* Rounded corners */,
+          borderRadius: "12px",
           transition:
-            "background-color 0.3s ease, transform 0.2s ease" /* Smooth transitions */,
+            "background-color 0.3s ease, transform 0.2s ease" ,
         }}
         onMouseOver={(e) => {
           e.currentTarget.style.backgroundColor =
-            "#0056b3"; /* Darker blue on hover */
+            "#0056b3"; 
           e.currentTarget.style.transform =
-            "scale(1.05)"; /* Slightly enlarge button on hover */
+            "scale(1.05)"; 
         }}
         onMouseOut={(e) => {
           e.currentTarget.style.backgroundColor =
-            "#007bff"; /* Original color */
+            "#007bff"; 
           e.currentTarget.style.transform = "scale(1)"; /* Reset size */
         }}
         onMouseDown={(e) => {
           e.currentTarget.style.backgroundColor =
-            "#004080"; /* Even darker blue when button is pressed */
+            "#004080"; 
         }}
         onMouseUp={(e) => {
           e.currentTarget.style.backgroundColor =
-            "#0056b3"; /* Return to hover color */
+            "#0056b3"; 
         }}
       >
         <span>Start Game</span>
