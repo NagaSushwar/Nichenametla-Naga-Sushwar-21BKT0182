@@ -10,7 +10,7 @@ const LANDING_PAGE_LIMITS = {
 };
 
 const MAX_TOTAL_PIECES = 5;
-const SOCKET_SERVER_URL = "http://localhost:4000"; // Your WebSocket server URL
+const SOCKET_SERVER_URL = "http://localhost:4000"; 
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -27,19 +27,17 @@ const LandingPage = () => {
     const { name, value } = e.target;
     const newValue = parseInt(value, 10);
 
-    // Ensure the value does not exceed the piece limit
+
     if (newValue > LANDING_PAGE_LIMITS[name]) {
       alert(`Maximum limit for ${name} is ${LANDING_PAGE_LIMITS[name]}`);
       return;
     }
 
-    // Calculate the total number of pieces
     const totalPieces = Object.values({
       ...composition,
       [name]: newValue,
     }).reduce((a, b) => a + b, 0);
 
-    // Ensure the total number of pieces does not exceed the limit
     if (totalPieces <= MAX_TOTAL_PIECES) {
       setComposition({
         ...composition,
@@ -51,9 +49,7 @@ const LandingPage = () => {
   };
 
   const handleStartGame = () => {
-    // Emit composition data to WebSocket server
     socket.emit("setupBoard", composition);
-    // Navigate to the game page
     navigate("/game");
   };
 
