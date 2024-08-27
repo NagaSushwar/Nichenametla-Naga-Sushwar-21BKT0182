@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your React app URL
+    origin: "http://localhost:3000", 
     methods: ["GET", "POST"],
   },
 });
@@ -15,7 +15,7 @@ const io = socketIo(server, {
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your React app URL
+    origin: "http://localhost:3000", 
   })
 );
 
@@ -55,11 +55,10 @@ io.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("setupBoard", (composition) => {
     initializeBoard(composition);
-    // Send initial board state and move history to the client
     socket.emit("boardUpdate", { grid, currentPlayer, moveHistory });
   });
 
-  // Send initial board state and move history to the client
+  
   socket.emit("boardUpdate", { grid, currentPlayer, moveHistory });
 
   // Handle move requests
@@ -74,7 +73,7 @@ io.on("connection", (socket) => {
     if (type[0] == "P") type = "P";
     const [newRow, newCol] = getNewPosition(row, col, direction, type);
 
-    // Validate move
+    // validate move
     if (
       newRow >= 0 &&
       newRow < gridHeight &&
@@ -84,7 +83,7 @@ io.on("connection", (socket) => {
       const targetCell = grid[newRow][newCol];
       const isCapture = targetCell && targetCell[0] !== currentPlayer;
 
-      // Check if the target cell is occupied by the current player's piece
+      
       if (targetCell && targetCell[0] === currentPlayer) {
         socket.emit("error", {
           message: "Invalid move: Friendly piece in the way",
@@ -96,7 +95,7 @@ io.on("connection", (socket) => {
       grid[newRow][newCol] = piece;
       grid[row][col] = "";
 
-      // Log move
+      
       moveHistory[currentPlayer].push({
         piece,
         direction,
@@ -108,12 +107,12 @@ io.on("connection", (socket) => {
       // Switch player
       currentPlayer = currentPlayer === "A" ? "B" : "A";
 
-      // Check for winner
+      
       const winner = checkWinner();
       if (winner) {
         io.emit("gameOver", { winner });
       } else {
-        // Broadcast the updated board state and move history to all connected clients
+        
         io.emit("boardUpdate", { grid, currentPlayer, moveHistory });
       }
     } else {
@@ -137,7 +136,7 @@ io.on("connection", (socket) => {
   });
 });
 
-// Find the position of a piece in the grid
+
 const findPiecePosition = (piece) => {
   for (let row = 0; row < gridHeight; row++) {
     for (let col = 0; col < gridWidth; col++) {
@@ -149,12 +148,12 @@ const findPiecePosition = (piece) => {
   return [-1, -1];
 };
 
-// Calculate new position based on move
+
 const getNewPosition = (row, col, move, type) => {
   let newRow = row;
   let newCol = col;
 
-  // Reverse moves for Player B
+  
   const isPlayerB = currentPlayer === "B";
 
   if (type === "P") {
@@ -168,7 +167,7 @@ const getNewPosition = (row, col, move, type) => {
     if (move === "F") newRow += isPlayerB ? 2 : -2;
     if (move === "B") newRow += isPlayerB ? -2 : 2;
   } else if (type === "H2") {
-    // Hero2's diagonal movement logic
+    
     if (move === "FL") {
       newRow += isPlayerB ? 2 : -2;
       newCol += isPlayerB ? 2 : -2;
@@ -186,7 +185,7 @@ const getNewPosition = (row, col, move, type) => {
       newCol += isPlayerB ? -2 : 2;
     }
   } else if (type === "H3") {
-    // Hero3's movement logic
+    
     if (move === "FL") {
       newRow += isPlayerB ? 2 : -2;
       newCol += isPlayerB ? -1 : 1;
@@ -224,7 +223,7 @@ const getNewPosition = (row, col, move, type) => {
   return [newRow, newCol];
 };
 
-// Example of handling possible moves on the server
+
 const getPossibleMoves = (row, col, piece, grid, currentPlayer) => {
   const moves = [];
   let [, type] = piece.split("-");
@@ -246,7 +245,7 @@ const getPossibleMoves = (row, col, piece, grid, currentPlayer) => {
       newCol >= 0 &&
       newCol < grid[0].length
     ) {
-      // Only add move if the target cell is empty or contains an opponent's piece
+      
       if (
         grid[newRow][newCol] === "" ||
         grid[newRow][newCol][0] !== currentPlayer
@@ -259,7 +258,7 @@ const getPossibleMoves = (row, col, piece, grid, currentPlayer) => {
   return moves;
 };
 
-// Check if there is a winner
+
 const checkWinner = () => {
   let playerAPieces = 0;
   let playerBPieces = 0;
@@ -274,7 +273,7 @@ const checkWinner = () => {
   if (playerAPieces === 0) return "B";
   if (playerBPieces === 0) return "A";
 
-  return null; // No winner yet
+  return null; 
 };
 
 server.listen(4000, () => {
